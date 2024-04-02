@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // deleteUserId(); // uncomment if need to logout user
     return MaterialApp(
       title: 'Login App',
       home: FutureBuilder(
@@ -65,6 +64,15 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   int _selectedIndex = 0;
 
+  // Function to handle logout
+  void _logout(BuildContext context) async {
+    deleteUserId(); // Clear user ID from secure storage
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => LoginPage()),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +117,23 @@ class _MainAppState extends State<MainApp> {
             _selectedIndex = index;
           });
         },
+      ),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text('Menu'),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () => _logout(context),
+            ),
+          ],
+        ),
       ),
     );
   }
